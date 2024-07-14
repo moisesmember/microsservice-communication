@@ -8,4 +8,4 @@ class UserException extends Error {
     }
 }
 
-export default new UserException();
+export default UserException;
