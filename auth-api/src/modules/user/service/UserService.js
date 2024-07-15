@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import userRepository from "../repository/userRepository.js";
+import userRepository from "../repository/UserRepository.js";
 import * as httpStatus from "../../../config/constants/httpStatus.js";
 import * as secrets from "../../../config/constants/secrets.js";
 import UserException from "../exception/UserException.js";
