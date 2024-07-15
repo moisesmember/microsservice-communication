@@ -11,6 +11,8 @@ services:
       - POSTGRES_PASSWORD=123456
     ports:
       - 5432:5432
+    volumes:
+      - auth-db-data:/var/lib/postgresql/data
 
   product-db:
     image: postgres:14-alpine
@@ -22,6 +24,8 @@ services:
       - POSTGRES_PASSWORD=123456
     ports:
       - 5433:5432
+    volumes:
+      - product-db-data:/var/lib/postgresql/data
 
   sales-db:
     image: tutum/mongodb
@@ -34,6 +38,8 @@ services:
     ports:
       - 27017:27017
       - 28017:28017
+    volumes:
+      - sales-db-data:/data/db
 
   auth-api:
     build: './auth-api'
@@ -42,6 +48,9 @@ services:
       - PORT=8080
     ports:
       - 8080:8080
+    volumes:
+      - ./auth-api:/app
+      - auth-api-node-modules:/app/node_modules
 
   product-api:
     build: './product-api'
@@ -66,4 +75,13 @@ services:
       - 5672:5672
       - 25676:25676
       - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+      
+volumes:
+  auth-db-data:
+  product-db-data:
+  sales-db-data:
+  rabbitmq-data:
+  auth-api-node-modules:
 
