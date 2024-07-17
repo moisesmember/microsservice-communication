@@ -16,7 +16,7 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
-                  name: name
+                  name: description
                   type: VARCHAR(255)
             tableName: category
   - changeSet:
@@ -72,4 +72,9 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_supplier_product
                     references: supplier(id)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity_available
+                  type: INTEGER
             tableName: product

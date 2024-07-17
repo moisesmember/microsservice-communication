@@ -1,0 +1,89 @@
+databaseChangeLog:
+  - changeSet:
+      id: first-insert-category
+      author: Moisés Felipe dos Santos
+      changes:
+        - insert:
+            tableName: category
+            columns:
+              - column:
+                  name: description
+                  value: Comic Books
+        - insert:
+            tableName: category
+            columns:
+              - column:
+                  name: description
+                  value: Movies
+        - insert:
+            tableName: category
+            columns:
+              - column:
+                  name: description
+                  value: Books
+  - changeSet:
+      id: first-insert-supplier
+      author: Moisés Felipe dos Santos
+      changes:
+        - insert:
+            tableName: supplier
+            columns:
+              - column:
+                  name: name
+                  value: Panini Comics
+        - insert:
+            tableName: supplier
+            columns:
+              - column:
+                  name: name
+                  value: Amazon
+  - changeSet:
+      id: first-insert-product
+      author: Moisés Felipe dos Santos
+      changes:
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Crise nas Infinitas Terras"
+              - column:
+                  name: category_id
+                  value: 1
+              - column:
+                  name: supplier_id
+                  value: 1
+              - column:
+                  name: quantity_available
+                  value: 10
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Interestelar"
+              - column:
+                  name: category_id
+                  value: 2
+              - column:
+                  name: supplier_id
+                  value: 2
+              - column:
+                  name: quantity_available
+                  value: 5
+        - insert:
+            tableName: product
+            columns:
+              - column:
+                  name: name
+                  value: "Harry Potter e a Pedra Filosofal"
+              - column:
+                  name: category_id
+                  value: 3
+              - column:
+                  name: supplier_id
+                  value: 2
+              - column:
+                  name: quantity_available
+                  value: 3
+

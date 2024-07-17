@@ -1,4 +1,7 @@
 databaseChangeLog:
   - include:
-      file: changelog/2024/1_17-07-2024-changelog.yaml
+      file: changelog/2024/structure/1_17-07-2024-changelog.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changelog/2024/seed/20_17-07-2024-changelog.yaml
       relativeToChangelogFile: true
