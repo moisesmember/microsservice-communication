@@ -1,0 +1,75 @@
+databaseChangeLog:
+  - changeSet:
+      id: createTable-category
+      author: Moisés Felipe dos Santos
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_category
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+            tableName: category
+  - changeSet:
+      id: createTable-supplier
+      author: Moisés Felipe dos Santos
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_supplier
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+            tableName: supplier
+  - changeSet:
+      id: createTable-product
+      author: Moisés Felipe dos Santos
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_product
+                  name: id
+                  type: BIGSERIAL
+                  autoIncrement: true
+              - column:
+                  constraints:
+                    nullable: false
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_category_product
+                    references: category(id)
+              - column:
+                  name: supplier_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_supplier_product
+                    references: supplier(id)
+            tableName: product
