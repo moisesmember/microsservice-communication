@@ -1,4 +1,4 @@
-package br.com.konisberg.product_api.modules;
+package br.com.konisberg.product_api.infra.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "supplier")
-public class Supplier {
+public class SupplierModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;

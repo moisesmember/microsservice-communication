@@ -1,4 +1,4 @@
-package br.com.konisberg.product_api.modules;
+package br.com.konisberg.product_api.infra.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "product")
-public class Product {
+public class ProductModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
@@ -20,11 +20,11 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    private CategoryModel category;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id", nullable = false)
-    private Supplier supplier;
+    private SupplierModel supplier;
 
     @Column(name = "quantity_available", nullable = false)
     private Integer quantityAvailable;

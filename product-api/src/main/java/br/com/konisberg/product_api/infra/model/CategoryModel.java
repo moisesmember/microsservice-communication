@@ -1,4 +1,4 @@
-package br.com.konisberg.product_api.modules;
+package br.com.konisberg.product_api.infra.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "category")
-public class Category {
+public class CategoryModel {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
