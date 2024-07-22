@@ -23,7 +23,7 @@ public class SupplierService implements SupplierGateway {
 
     @Override
     public Supplier findById(Integer id) {
-        return Supplier.of(supplierRepository.findById(id).get());
+        return Supplier.of(supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier not found")));
     }
 
     @Override
@@ -35,14 +35,14 @@ public class SupplierService implements SupplierGateway {
 
     @Override
     public Supplier update(Integer id, SupplierForm param) {
-        SupplierModel supplierFound = supplierRepository.findById(id).get();
+        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
         supplierFound.setName(param.getName());
         return Supplier.of(supplierRepository.save(supplierFound));
     }
 
     @Override
     public Supplier delete(Integer id) {
-        SupplierModel supplierFound = supplierRepository.findById(id).get();
+        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
         supplierRepository.delete(supplierFound);
         return Supplier.of(supplierFound);
     }

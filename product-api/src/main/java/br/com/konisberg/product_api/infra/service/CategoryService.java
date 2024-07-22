@@ -23,7 +23,7 @@ public class CategoryService implements CategoryGateway {
 
     @Override
     public Category findById(Integer id) {
-        return Category.of(categoryRepository.findById(id).get());
+        return Category.of(categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found")));
     }
 
     @Override
@@ -35,14 +35,14 @@ public class CategoryService implements CategoryGateway {
 
     @Override
     public Category update(Integer id, CategoryForm param) {
-        CategoryModel categoryFound = categoryRepository.findById(id).get();
+        CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found"));
         categoryFound.setDescription(param.getDescription());
         return Category.of(categoryFound);
     }
 
     @Override
     public Category delete(Integer id) {
-        CategoryModel categoryFound = categoryRepository.findById(id).get();
+        CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found"));
         categoryRepository.delete(categoryFound);
         return Category.of(categoryFound);
     }
