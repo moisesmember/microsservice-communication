@@ -1,13 +1,10 @@
 package br.com.konisberg.product_api.application.form;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class CategoryForm {
     private String description;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

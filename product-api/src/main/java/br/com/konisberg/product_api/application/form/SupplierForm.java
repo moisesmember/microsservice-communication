@@ -1,13 +1,11 @@
 package br.com.konisberg.product_api.application.form;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class SupplierForm {
      private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

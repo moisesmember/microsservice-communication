@@ -10,6 +10,7 @@ import br.com.konisberg.product_api.infra.repository.ProductRepository;
 import br.com.konisberg.product_api.infra.repository.SupplierRepository;
 import br.com.konisberg.product_api.infra.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
+@Tag("unit")
 class ProductServiceTest {
 
     @InjectMocks
