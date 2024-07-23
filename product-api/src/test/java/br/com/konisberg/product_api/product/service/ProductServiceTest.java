@@ -1,4 +1,4 @@
-package br.com.konisberg.product_api.product;
+package br.com.konisberg.product_api.product.service;
 
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.domain.entity.Product;

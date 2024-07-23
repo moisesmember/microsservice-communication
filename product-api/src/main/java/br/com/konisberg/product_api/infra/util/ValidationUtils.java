@@ -1,12 +1,12 @@
 package br.com.konisberg.product_api.infra.util;
 
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 public class ValidationUtils {
 
     public static void validateNotEmpty(String field, String fieldName) {
-        if (StringUtils.hasText(field)) {
+        if (ObjectUtils.isEmpty(field)) {
             throw new ValidationException("The " + fieldName + " was not informed.");
         }
     }
