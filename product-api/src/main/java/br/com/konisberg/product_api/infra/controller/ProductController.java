@@ -42,6 +42,20 @@ public class ProductController {
         return ResponseEntity.created(uri).body(product);
     }
 
+    @Transactional
+    @Operation(summary = "Atualizar produto", tags = {"Produto"})
+    @PutMapping
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductForm productForm) {
+        ProductUseCase productUseCase = new ProductUseCase(productService);
+        final ProductDTO product = productUseCase.update(id, productForm);
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(product.id())
+                .toUri();
+        return ResponseEntity.created(uri).body(product);
+    }
+
     @Operation(summary = "Lista de produtos", tags = {"Produto"})
     @GetMapping
     public ResponseEntity<List<ProductDTO>> searchProductAll() {
