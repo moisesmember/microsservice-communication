@@ -1,7 +1,6 @@
 package br.com.konisberg.product_api.domain.repository;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface GenericRepository<D, F> {
     List<D> findAll();

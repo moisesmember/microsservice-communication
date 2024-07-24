@@ -3,22 +3,22 @@ package br.com.konisberg.product_api.application.usecase;
 import br.com.konisberg.product_api.application.dto.ProductDTO;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.interator.ProductInterator;
-import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
-import br.com.konisberg.product_api.domain.service.Mapper;
 import br.com.konisberg.product_api.infra.util.ValidationUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.inject.Named;
 import java.util.List;
 
-//@Named
-@RequiredArgsConstructor
+@Named
 public class ProductUseCase implements ProductInterator {
 
     private final ProductGateway productGateway;
-    private final Mapper<ProductDTO, ProductForm, Product> mapper;
+
+    public ProductUseCase(ProductGateway productGateway) {
+        this.productGateway = productGateway;
+    }
 
     @SneakyThrows
     @Transactional
@@ -29,7 +29,7 @@ public class ProductUseCase implements ProductInterator {
         ValidationUtils.validateNotEmpty(String.valueOf(productForm.getCategoryId()), "product's category id");
         ValidationUtils.validateNotEmpty(String.valueOf(productForm.getSupplierId()), "product's supplier");
         ValidationUtils.validatePositiveNumber(productForm.getQuantityAvailable(), "product's quantity");
-        return mapper.domainToDto(productGateway.create(productForm));
+        return ProductDTO.from(productGateway.create(productForm));
     }
 
     @SneakyThrows
@@ -42,18 +42,18 @@ public class ProductUseCase implements ProductInterator {
         ValidationUtils.validateNotEmpty(String.valueOf(productForm.getCategoryId()), "product's category id");
         ValidationUtils.validateNotEmpty(String.valueOf(productForm.getSupplierId()), "product's supplier");
         ValidationUtils.validatePositiveNumber(productForm.getQuantityAvailable(), "product's quantity");
-        return mapper.domainToDto(productGateway.update(id, productForm));
+        return ProductDTO.from(productGateway.update(id, productForm));
     }
 
     @Override
     public ProductDTO searchById(Integer id) {
         ValidationUtils.validateNotEmpty(String.valueOf(id), "product's id");
-        return mapper.domainToDto(productGateway.findById(id));
+        return ProductDTO.from(productGateway.findById(id));
     }
 
     @Override
     public List<ProductDTO> searchAll() {
-        return mapper.domainListToDtoList(productGateway.findAll());
+        return ProductDTO.fromList(productGateway.findAll());
     }
 
     @SneakyThrows
@@ -61,6 +61,6 @@ public class ProductUseCase implements ProductInterator {
     @Override
     public ProductDTO delete(Integer id) {
         ValidationUtils.validateNotEmpty(String.valueOf(id), "product's id");
-        return mapper.domainToDto(productGateway.delete(id));
+        return ProductDTO.from(productGateway.delete(id));
     }
 }

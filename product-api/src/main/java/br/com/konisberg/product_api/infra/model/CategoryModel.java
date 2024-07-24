@@ -16,7 +16,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name = "category")
 public class CategoryModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "description", nullable = false)

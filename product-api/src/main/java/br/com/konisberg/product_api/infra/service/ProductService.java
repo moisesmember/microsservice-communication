@@ -43,6 +43,7 @@ public class ProductService implements ProductGateway {
         CategoryModel category = categoryRepository.findById(param.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
         ProductModel product = new ProductModel();
+        product.setId(null);
         product.setName(param.getName());
         product.setSupplier(supplier);
         product.setCategory(category);

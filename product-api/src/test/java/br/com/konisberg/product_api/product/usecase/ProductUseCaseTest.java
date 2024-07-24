@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import br.com.konisberg.product_api.application.dto.CategoryDTO;
 import br.com.konisberg.product_api.application.dto.ProductDTO;
@@ -14,13 +13,12 @@ import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.usecase.ProductUseCase;
 import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
-import br.com.konisberg.product_api.domain.service.Mapper;
+import br.com.konisberg.product_api.domain.mapper.Mapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.transaction.annotation.Transactional;
 
 public class ProductUseCaseTest {
 

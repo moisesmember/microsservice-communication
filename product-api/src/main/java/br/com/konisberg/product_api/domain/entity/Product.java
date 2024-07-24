@@ -18,6 +18,12 @@ public class Product {
     public static Product of (ProductModel product) {
         var response = new Product();
         BeanUtils.copyProperties(product, response);
+        if (product.getCategory() != null) {
+            response.setCategory(Category.of(product.getCategory()));
+        }
+        if (product.getSupplier() != null) {
+            response.setSupplier(Supplier.of(product.getSupplier()));
+        }
         return response;
     }
 
