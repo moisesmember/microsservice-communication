@@ -3,6 +3,7 @@ package br.com.konisberg.product_api.infra.service;
 import br.com.konisberg.product_api.application.form.SupplierForm;
 import br.com.konisberg.product_api.domain.entity.Supplier;
 import br.com.konisberg.product_api.domain.repository.SupplierGateway;
+import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.SupplierModel;
 import br.com.konisberg.product_api.infra.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class SupplierService implements SupplierGateway {
 
     @Override
     public Supplier findById(Integer id) {
-        return Supplier.of(supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier not found")));
+        return Supplier.of(supplierRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Supplier for the given ID.")));
     }
 
     @Override
@@ -35,14 +36,14 @@ public class SupplierService implements SupplierGateway {
 
     @Override
     public Supplier update(Integer id, SupplierForm param) {
-        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
+        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Supplier for the given ID."));
         supplierFound.setName(param.getName());
         return Supplier.of(supplierRepository.save(supplierFound));
     }
 
     @Override
     public Supplier delete(Integer id) {
-        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
+        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Supplier for the given ID."));
         supplierRepository.delete(supplierFound);
         return Supplier.of(supplierFound);
     }

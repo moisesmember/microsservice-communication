@@ -3,6 +3,7 @@ package br.com.konisberg.product_api.infra.service;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
+import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.CategoryModel;
 import br.com.konisberg.product_api.infra.model.ProductModel;
 import br.com.konisberg.product_api.infra.model.SupplierModel;
@@ -33,15 +34,15 @@ public class ProductService implements ProductGateway {
 
     @Override
     public Product findById(Integer id) {
-        return Product.of(productRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found")));
+        return Product.of(productRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Product for the given ID.")));
     }
 
     @Override
     public Product create(ProductForm param) {
         SupplierModel supplier = supplierRepository.findById(param.getSupplierId())
-                .orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
+                .orElseThrow(() -> new ValidationException("There's no Supplier for the given ID."));
         CategoryModel category = categoryRepository.findById(param.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+                .orElseThrow(() -> new ValidationException("There's no Category for the given ID."));
         ProductModel product = new ProductModel();
         product.setId(null);
         product.setName(param.getName());
@@ -54,11 +55,11 @@ public class ProductService implements ProductGateway {
     @Override
     public Product update(Integer id, ProductForm param) {
         ProductModel productFound = productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new ValidationException("There's no Product for the given ID."));
         SupplierModel supplier = supplierRepository.findById(param.getSupplierId())
-                .orElseThrow(() -> new IllegalArgumentException("Supplier not found"));
+                .orElseThrow(() -> new ValidationException("There's no Supplier for the given ID."));
         CategoryModel category = categoryRepository.findById(param.getCategoryId())
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+                .orElseThrow(() -> new ValidationException("There's no Category for the given ID."));
         productFound.setName(param.getName());
         productFound.setSupplier(supplier);
         productFound.setCategory(category);
@@ -69,7 +70,7 @@ public class ProductService implements ProductGateway {
     @Override
     public Product delete(Integer id) {
         ProductModel productFound = productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                .orElseThrow(() -> new ValidationException("There's no Product for the given ID."));
         productRepository.delete(productFound);
         return Product.of(productFound);
     }

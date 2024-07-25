@@ -3,6 +3,7 @@ package br.com.konisberg.product_api.infra.service;
 import br.com.konisberg.product_api.application.form.CategoryForm;
 import br.com.konisberg.product_api.domain.entity.Category;
 import br.com.konisberg.product_api.domain.repository.CategoryGateway;
+import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.CategoryModel;
 import br.com.konisberg.product_api.infra.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class CategoryService implements CategoryGateway {
 
     @Override
     public Category findById(Integer id) {
-        return Category.of(categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found")));
+        return Category.of(categoryRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Category for the given ID.")));
     }
 
     @Override
@@ -35,14 +36,14 @@ public class CategoryService implements CategoryGateway {
 
     @Override
     public Category update(Integer id, CategoryForm param) {
-        CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Category for the given ID."));
         categoryFound.setDescription(param.getDescription());
         return Category.of(categoryRepository.save(categoryFound));
     }
 
     @Override
     public Category delete(Integer id) {
-        CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found"));
+        CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Category for the given ID."));
         categoryRepository.delete(categoryFound);
         return Category.of(categoryFound);
     }
