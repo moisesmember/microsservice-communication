@@ -14,4 +14,6 @@ public interface GenericRepository<D, F> {
     D delete(Integer id);
 
     long count(String search);
+
+    boolean existsById(Integer id);
 }

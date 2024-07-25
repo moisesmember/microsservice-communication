@@ -51,4 +51,9 @@ public class CategoryService implements CategoryGateway {
     public long count(String search) {
         return categoryRepository.count();
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return categoryRepository.existsById(id);
+    }
 }

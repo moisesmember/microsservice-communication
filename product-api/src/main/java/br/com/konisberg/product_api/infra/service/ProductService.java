@@ -78,4 +78,9 @@ public class ProductService implements ProductGateway {
     public long count(String search) {
         return productRepository.count();
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return productRepository.existsById(id);
+    }
 }

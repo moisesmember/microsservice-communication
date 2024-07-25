@@ -51,4 +51,9 @@ public class SupplierService implements SupplierGateway {
     public long count(String search) {
         return supplierRepository.count();
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return supplierRepository.existsById(id);
+    }
 }
