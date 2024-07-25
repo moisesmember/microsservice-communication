@@ -37,7 +37,7 @@ public class CategoryService implements CategoryGateway {
     public Category update(Integer id, CategoryForm param) {
         CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Category not found"));
         categoryFound.setDescription(param.getDescription());
-        return Category.of(categoryFound);
+        return Category.of(categoryRepository.save(categoryFound));
     }
 
     @Override

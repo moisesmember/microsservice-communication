@@ -5,7 +5,6 @@ import br.com.konisberg.product_api.application.form.CategoryForm;
 import br.com.konisberg.product_api.application.interator.CategoryInterator;
 import br.com.konisberg.product_api.domain.repository.CategoryGateway;
 import br.com.konisberg.product_api.infra.util.ValidationUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +12,13 @@ import javax.inject.Named;
 import java.util.List;
 
 @Named
-@RequiredArgsConstructor
 public class CategoryUseCase implements CategoryInterator {
 
     private final CategoryGateway categoryGateway;
+
+    public CategoryUseCase(CategoryGateway categoryGateway) {
+        this.categoryGateway = categoryGateway;
+    }
 
     @SneakyThrows
     @Transactional

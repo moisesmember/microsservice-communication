@@ -5,7 +5,6 @@ import br.com.konisberg.product_api.application.form.SupplierForm;
 import br.com.konisberg.product_api.application.interator.SupplierInterator;
 import br.com.konisberg.product_api.domain.repository.SupplierGateway;
 import br.com.konisberg.product_api.infra.util.ValidationUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +12,13 @@ import javax.inject.Named;
 import java.util.List;
 
 @Named
-@RequiredArgsConstructor
 public class SupplierUseCase implements SupplierInterator {
 
     private final SupplierGateway supplierGateway;
+
+    public SupplierUseCase(SupplierGateway supplierGateway) {
+        this.supplierGateway = supplierGateway;
+    }
 
     @SneakyThrows
     @Transactional

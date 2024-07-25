@@ -44,7 +44,7 @@ public class ProductController {
 
     @Transactional
     @Operation(summary = "Atualizar produto", tags = {"Produto"})
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductForm productForm) {
         ProductUseCase productUseCase = new ProductUseCase(productService);
         final ProductDTO product = productUseCase.update(id, productForm);

@@ -14,3 +14,7 @@ docker image build -t product-api .
 https://www.base64encode.org/
 
 https://jwt.io/
+
+
+Product-api
+http://localhost:8081/swagger-ui/index.html#/
