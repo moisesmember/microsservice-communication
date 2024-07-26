@@ -63,4 +63,22 @@ public class ProductUseCase implements ProductInterator {
         ValidationUtils.validateNotEmpty(String.valueOf(id), "product's id");
         return ProductDTO.from(productGateway.delete(id));
     }
+
+    @Override
+    public List<ProductDTO> findByName(String name) {
+        ValidationUtils.validateNotEmpty(name, "product's name");
+        return ProductDTO.fromList(productGateway.findByNameIgnoreCaseContaining(name));
+    }
+
+    @Override
+    public List<ProductDTO> findByCategoryId(Integer categoryId) {
+        ValidationUtils.validateNotEmpty(String.valueOf(categoryId), "category's id");
+        return ProductDTO.fromList(productGateway.findByCategoryId(categoryId));
+    }
+
+    @Override
+    public List<ProductDTO> findBySupplierId(Integer supplierId) {
+        ValidationUtils.validateNotEmpty(String.valueOf(supplierId), "supplier's id");
+        return ProductDTO.fromList(productGateway.findBySupplierId(supplierId));
+    }
 }

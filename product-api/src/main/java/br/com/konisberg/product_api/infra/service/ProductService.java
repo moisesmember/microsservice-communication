@@ -87,4 +87,29 @@ public class ProductService implements ProductGateway {
     public boolean existsById(Integer id) {
         return productRepository.existsById(id);
     }
+
+    @Override
+    public List<Product> findByNameIgnoreCaseContaining(String name) {
+        return Product.ofList(productRepository.findByNameIgnoreCaseContaining(name));
+    }
+
+    @Override
+    public List<Product> findByCategoryId(Integer categoryId) {
+        return Product.ofList(productRepository.findByCategoryId(categoryId));
+    }
+
+    @Override
+    public List<Product> findBySupplierId(Integer supplierId) {
+        return Product.ofList(productRepository.findBySupplierId(supplierId));
+    }
+
+    @Override
+    public Boolean existsByCategoryId(Integer categoryId) {
+        return productRepository.existsByCategoryId(categoryId);
+    }
+
+    @Override
+    public Boolean existsBySupplierId(Integer supplierId) {
+        return productRepository.existsBySupplierId(supplierId);
+    }
 }

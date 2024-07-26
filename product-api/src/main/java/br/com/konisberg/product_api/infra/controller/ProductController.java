@@ -77,4 +77,28 @@ public class ProductController {
         ProductUseCase productUseCase = new ProductUseCase(productService);
         return ResponseEntity.ok().body(productUseCase.delete(id));
     }
+
+    @Operation(summary = "Lista de produtos por nome", tags = {"Produto"})
+    @GetMapping("/findByName/{name}")
+    public ResponseEntity<List<ProductDTO>> searchProductAllByName(@PathVariable String name) {
+        ProductUseCase productUseCase = new ProductUseCase(productService);
+        final List<ProductDTO> products = productUseCase.findByName(name);
+        return ResponseEntity.ok().body(products);
+    }
+
+    @Operation(summary = "Lista de produtos por categoria", tags = {"Produto"})
+    @GetMapping("/findByCategoryId/{categoryId}")
+    public ResponseEntity<List<ProductDTO>> searchProductAllByCategoryId(@PathVariable Integer categoryId) {
+        ProductUseCase productUseCase = new ProductUseCase(productService);
+        final List<ProductDTO> products = productUseCase.findByCategoryId(categoryId);
+        return ResponseEntity.ok().body(products);
+    }
+
+    @Operation(summary = "Lista de produtos por fornecedor", tags = {"Produto"})
+    @GetMapping("/findBySupplierId/{supplierId}")
+    public ResponseEntity<List<ProductDTO>> searchProductAllBySupplierId(@PathVariable Integer supplierId) {
+        ProductUseCase productUseCase = new ProductUseCase(productService);
+        final List<ProductDTO> products = productUseCase.findBySupplierId(supplierId);
+        return ResponseEntity.ok().body(products);
+    }
 }

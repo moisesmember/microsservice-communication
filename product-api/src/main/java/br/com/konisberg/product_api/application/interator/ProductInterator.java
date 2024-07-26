@@ -11,4 +11,7 @@ public interface ProductInterator {
     ProductDTO searchById(Integer id);
     List<ProductDTO> searchAll();
     ProductDTO delete(Integer id);
+    List<ProductDTO> findByName(String name);
+    List<ProductDTO> findByCategoryId(Integer categoryId);
+    List<ProductDTO> findBySupplierId(Integer supplierId);
 }
