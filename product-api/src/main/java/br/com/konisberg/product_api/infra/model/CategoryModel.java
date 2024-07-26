@@ -1,24 +1,21 @@
 package br.com.konisberg.product_api.infra.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.hibernate.annotations.*;
 
 @Data
 @Entity
+@Builder
 @DynamicUpdate
 @DynamicInsert
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "category")
-public class CategoryModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+@Where(clause = "deleted_at is null")
+public class CategoryModel extends Auditable{
     @Column(name = "description", nullable = false)
     private String description;
 }

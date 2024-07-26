@@ -9,6 +9,7 @@ import br.com.konisberg.product_api.infra.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class CategoryService implements CategoryGateway {
     public Category create(CategoryForm param) {
         CategoryModel categoryModel = new CategoryModel();
         categoryModel.setDescription(param.getDescription());
+        categoryModel.setCreationDate(new Date());
         return Category.of(categoryRepository.save(categoryModel));
     }
 
@@ -38,6 +40,7 @@ public class CategoryService implements CategoryGateway {
     public Category update(Integer id, CategoryForm param) {
         CategoryModel categoryFound = categoryRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Category for the given ID."));
         categoryFound.setDescription(param.getDescription());
+        categoryFound.setLastModifiedDate(new Date());
         return Category.of(categoryRepository.save(categoryFound));
     }
 

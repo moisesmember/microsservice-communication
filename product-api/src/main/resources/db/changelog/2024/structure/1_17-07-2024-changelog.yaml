@@ -14,6 +14,15 @@ databaseChangeLog:
                   type: BIGSERIAL
                   autoIncrement: true
               - column:
+                  name: creation_date
+                  type: DATETIME
+              - column:
+                  name: last_modified_date
+                  type: DATETIME
+              - column:
+                  name: deleted_at
+                  type: DATETIME
+              - column:
                   constraints:
                     nullable: false
                   name: description
@@ -34,6 +43,15 @@ databaseChangeLog:
                   type: BIGSERIAL
                   autoIncrement: true
               - column:
+                  name: creation_date
+                  type: DATETIME
+              - column:
+                  name: last_modified_date
+                  type: DATETIME
+              - column:
+                  name: deleted_at
+                  type: DATETIME
+              - column:
                   constraints:
                     nullable: false
                   name: name
@@ -53,6 +71,15 @@ databaseChangeLog:
                   name: id
                   type: BIGSERIAL
                   autoIncrement: true
+              - column:
+                  name: creation_date
+                  type: DATETIME
+              - column:
+                  name: last_modified_date
+                  type: DATETIME
+              - column:
+                  name: deleted_at
+                  type: DATETIME
               - column:
                   constraints:
                     nullable: false

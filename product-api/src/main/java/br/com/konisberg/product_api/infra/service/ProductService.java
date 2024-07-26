@@ -13,6 +13,7 @@ import br.com.konisberg.product_api.infra.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -49,6 +50,7 @@ public class ProductService implements ProductGateway {
         product.setSupplier(supplier);
         product.setCategory(category);
         product.setQuantityAvailable(param.getQuantityAvailable());
+        product.setCreationDate(new Date());
         return Product.of(productRepository.save(product));
     }
 
@@ -64,6 +66,7 @@ public class ProductService implements ProductGateway {
         productFound.setSupplier(supplier);
         productFound.setCategory(category);
         productFound.setQuantityAvailable(param.getQuantityAvailable());
+        productFound.setLastModifiedDate(new Date());
         return Product.of(productRepository.save(productFound));
     }
 

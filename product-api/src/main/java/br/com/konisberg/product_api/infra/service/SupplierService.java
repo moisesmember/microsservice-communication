@@ -9,6 +9,7 @@ import br.com.konisberg.product_api.infra.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,6 +32,7 @@ public class SupplierService implements SupplierGateway {
     public Supplier create(SupplierForm param) {
         SupplierModel supplierModel = new SupplierModel();
         supplierModel.setName(param.getName());
+        supplierModel.setCreationDate(new Date());
         return Supplier.of(supplierRepository.save(supplierModel));
     }
 
@@ -38,6 +40,7 @@ public class SupplierService implements SupplierGateway {
     public Supplier update(Integer id, SupplierForm param) {
         SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Supplier for the given ID."));
         supplierFound.setName(param.getName());
+        supplierFound.setDeletedAt(new Date());
         return Supplier.of(supplierRepository.save(supplierFound));
     }
 

@@ -4,6 +4,7 @@ import br.com.konisberg.product_api.infra.model.ProductModel;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ public class Product {
     private Category category;
     private Supplier supplier;
     private Integer quantityAvailable;
+    private Date creationDate;
 
     public static Product of (ProductModel product) {
         var response = new Product();
