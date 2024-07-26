@@ -3,6 +3,7 @@ package br.com.konisberg.product_api.infra.service;
 import br.com.konisberg.product_api.application.form.SupplierForm;
 import br.com.konisberg.product_api.domain.entity.Supplier;
 import br.com.konisberg.product_api.domain.repository.SupplierGateway;
+import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.SupplierModel;
 import br.com.konisberg.product_api.infra.repository.SupplierRepository;
@@ -17,6 +18,9 @@ public class SupplierService implements SupplierGateway {
 
     @Autowired
     private SupplierRepository supplierRepository;
+
+    @Autowired
+    private ProductService productService;
 
     @Override
     public List<Supplier> findAll() {
@@ -45,10 +49,12 @@ public class SupplierService implements SupplierGateway {
     }
 
     @Override
-    public Supplier delete(Integer id) {
-        SupplierModel supplierFound = supplierRepository.findById(id).orElseThrow(() -> new ValidationException("There's no Supplier for the given ID."));
-        supplierRepository.delete(supplierFound);
-        return Supplier.of(supplierFound);
+    public SuccessResponse delete(Integer id) {
+        if(Boolean.TRUE.equals(productService.existsBySupplierId(id))) {
+            throw new ValidationException("You cannot delete this supplier because it's already defined by a product.");
+        }
+        supplierRepository.deleteById(id);
+        return SuccessResponse.create("The Category was deleted.");
     }
 
     @Override

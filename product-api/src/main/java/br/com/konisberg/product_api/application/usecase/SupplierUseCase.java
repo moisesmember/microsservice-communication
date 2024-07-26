@@ -1,5 +1,6 @@
 package br.com.konisberg.product_api.application.usecase;
 
+import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.dto.SupplierDTO;
 import br.com.konisberg.product_api.application.form.SupplierForm;
 import br.com.konisberg.product_api.application.interator.SupplierInterator;
@@ -51,8 +52,8 @@ public class SupplierUseCase implements SupplierInterator {
     @SneakyThrows
     @Transactional
     @Override
-    public SupplierDTO delete(Integer id) {
+    public SuccessResponseDTO delete(Integer id) {
         ValidationUtils.validateNotEmpty(String.valueOf(id), "supplier's id");
-        return SupplierDTO.from(supplierGateway.delete(id));
+        return SuccessResponseDTO.from(supplierGateway.delete(id));
     }
 }

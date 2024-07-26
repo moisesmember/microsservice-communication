@@ -1,5 +1,6 @@
 package br.com.konisberg.product_api.infra.controller;
 
+import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.dto.SupplierDTO;
 import br.com.konisberg.product_api.application.form.SupplierForm;
 import br.com.konisberg.product_api.application.usecase.SupplierUseCase;
@@ -74,7 +75,7 @@ public class SupplierController {
 
     @Operation(summary = "Excluir forncedor por id", tags = {RouteTag.SUPPLIER})
     @DeleteMapping("/{id}")
-    public ResponseEntity<SupplierDTO> deleteSupplierById(@PathVariable Integer id) {
+    public ResponseEntity<SuccessResponseDTO> deleteSupplierById(@PathVariable Integer id) {
         SupplierUseCase supplierUseCase = new SupplierUseCase(supplierService);
         return ResponseEntity.ok().body(supplierUseCase.delete(id));
     }

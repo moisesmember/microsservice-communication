@@ -1,6 +1,7 @@
 package br.com.konisberg.product_api.application.usecase;
 
 import br.com.konisberg.product_api.application.dto.CategoryDTO;
+import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.form.CategoryForm;
 import br.com.konisberg.product_api.application.interator.CategoryInterator;
 import br.com.konisberg.product_api.domain.repository.CategoryGateway;
@@ -51,8 +52,8 @@ public class CategoryUseCase implements CategoryInterator {
     @SneakyThrows
     @Transactional
     @Override
-    public CategoryDTO delete(Integer id) {
+    public SuccessResponseDTO delete(Integer id) {
         ValidationUtils.validateNotEmpty(String.valueOf(id), "category's id");
-        return CategoryDTO.from(categoryGateway.delete(id));
+        return SuccessResponseDTO.from(categoryGateway.delete(id));
     }
 }

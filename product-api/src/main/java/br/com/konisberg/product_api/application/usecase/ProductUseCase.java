@@ -1,6 +1,7 @@
 package br.com.konisberg.product_api.application.usecase;
 
 import br.com.konisberg.product_api.application.dto.ProductDTO;
+import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.interator.ProductInterator;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
@@ -59,9 +60,9 @@ public class ProductUseCase implements ProductInterator {
     @SneakyThrows
     @Transactional
     @Override
-    public ProductDTO delete(Integer id) {
+    public SuccessResponseDTO delete(Integer id) {
         ValidationUtils.validateNotEmpty(String.valueOf(id), "product's id");
-        return ProductDTO.from(productGateway.delete(id));
+        return SuccessResponseDTO.from(productGateway.delete(id));
     }
 
     @Override

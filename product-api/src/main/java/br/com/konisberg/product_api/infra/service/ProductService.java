@@ -3,6 +3,7 @@ package br.com.konisberg.product_api.infra.service;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
+import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.CategoryModel;
 import br.com.konisberg.product_api.infra.model.ProductModel;
@@ -71,11 +72,9 @@ public class ProductService implements ProductGateway {
     }
 
     @Override
-    public Product delete(Integer id) {
-        ProductModel productFound = productRepository.findById(id)
-                .orElseThrow(() -> new ValidationException("There's no Product for the given ID."));
-        productRepository.delete(productFound);
-        return Product.of(productFound);
+    public SuccessResponse delete(Integer id) {
+        productRepository.deleteById(id);
+        return SuccessResponse.create("The Product was deleted.");
     }
 
     @Override

@@ -1,6 +1,7 @@
 package br.com.konisberg.product_api.infra.controller;
 
 import br.com.konisberg.product_api.application.dto.ProductDTO;
+import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.usecase.ProductUseCase;
 import br.com.konisberg.product_api.infra.service.ProductService;
@@ -74,7 +75,7 @@ public class ProductController {
 
     @Operation(summary = "Excluir produto por id", tags = {RouteTag.PRODUCT})
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProductDTO> deleteProductById(@PathVariable Integer id) {
+    public ResponseEntity<SuccessResponseDTO> deleteProductById(@PathVariable Integer id) {
         ProductUseCase productUseCase = new ProductUseCase(productService);
         return ResponseEntity.ok().body(productUseCase.delete(id));
     }

@@ -1,6 +1,7 @@
 package br.com.konisberg.product_api.infra.controller;
 
 import br.com.konisberg.product_api.application.dto.CategoryDTO;
+import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.form.CategoryForm;
 import br.com.konisberg.product_api.application.usecase.CategoryUseCase;
 import br.com.konisberg.product_api.infra.service.CategoryService;
@@ -74,7 +75,7 @@ public class CategoryController {
 
     @Operation(summary = "Excluir categoria por id", tags = {RouteTag.CATEGORY})
     @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryDTO> deleteCategoryById(@PathVariable Integer id) {
+    public ResponseEntity<SuccessResponseDTO> deleteCategoryById(@PathVariable Integer id) {
         CategoryUseCase categoryUseCase = new CategoryUseCase(categoryService);
         return ResponseEntity.ok().body(categoryUseCase.delete(id));
     }

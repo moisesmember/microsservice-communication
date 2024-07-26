@@ -2,7 +2,7 @@ package br.com.konisberg.product_api.domain.repository;
 
 import java.util.List;
 
-public interface GenericRepository<D, F> {
+public interface GenericRepository<D, F, S> {
     List<D> findAll();
 
     D findById(Integer id);
@@ -11,7 +11,7 @@ public interface GenericRepository<D, F> {
 
     D update(Integer id, F param);
 
-    D delete(Integer id);
+    S delete(Integer id);
 
     long count(String search);
 
