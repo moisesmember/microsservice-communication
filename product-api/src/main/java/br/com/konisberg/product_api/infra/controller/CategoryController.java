@@ -5,6 +5,7 @@ import br.com.konisberg.product_api.application.form.CategoryForm;
 import br.com.konisberg.product_api.application.usecase.CategoryUseCase;
 import br.com.konisberg.product_api.infra.service.CategoryService;
 import br.com.konisberg.product_api.infra.util.PathRest;
+import br.com.konisberg.product_api.infra.util.RouteTag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +23,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = PathRest.API + PathRest.VERSION + PathRest.CATEGORY)
 @RequiredArgsConstructor
-@Tag(name = "Categoria", description = "Operações da categoria")
+@Tag(name = RouteTag.CATEGORY, description = "Operações da categoria")
 public class CategoryController {
 
     @Autowired
     private final CategoryService categoryService;
 
     @Transactional
-    @Operation(summary = "Cadastrar categoria", tags = {"Categoria"})
+    @Operation(summary = "Cadastrar categoria", tags = {RouteTag.CATEGORY})
     @PostMapping
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryForm categoryForm) {
         CategoryUseCase categoryUseCase = new CategoryUseCase(categoryService);
@@ -43,7 +44,7 @@ public class CategoryController {
     }
 
     @Transactional
-    @Operation(summary = "Atualizar categoria", tags = {"Categoria"})
+    @Operation(summary = "Atualizar categoria", tags = {RouteTag.CATEGORY})
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Integer id, @Valid @RequestBody CategoryForm categoryForm) {
         CategoryUseCase categoryUseCase = new CategoryUseCase(categoryService);
@@ -56,7 +57,7 @@ public class CategoryController {
         return ResponseEntity.created(uri).body(category);
     }
 
-    @Operation(summary = "Lista de categorias", tags = {"Categoria"})
+    @Operation(summary = "Lista de categorias", tags = {RouteTag.CATEGORY})
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> searchCategoryAll() {
         CategoryUseCase categoryUseCase = new CategoryUseCase(categoryService);
@@ -64,14 +65,14 @@ public class CategoryController {
         return ResponseEntity.ok().body(categories);
     }
 
-    @Operation(summary = "Consultar categoria por id", tags = {"Categoria"})
+    @Operation(summary = "Consultar categoria por id", tags = {RouteTag.CATEGORY})
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDTO> searchCategoryById(@PathVariable Integer id) {
         CategoryUseCase categoryUseCase = new CategoryUseCase(categoryService);
         return ResponseEntity.ok().body(categoryUseCase.searchById(id));
     }
 
-    @Operation(summary = "Excluir categoria por id", tags = {"Categoria"})
+    @Operation(summary = "Excluir categoria por id", tags = {RouteTag.CATEGORY})
     @DeleteMapping("/{id}")
     public ResponseEntity<CategoryDTO> deleteCategoryById(@PathVariable Integer id) {
         CategoryUseCase categoryUseCase = new CategoryUseCase(categoryService);

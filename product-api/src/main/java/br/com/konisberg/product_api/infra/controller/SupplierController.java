@@ -5,6 +5,7 @@ import br.com.konisberg.product_api.application.form.SupplierForm;
 import br.com.konisberg.product_api.application.usecase.SupplierUseCase;
 import br.com.konisberg.product_api.infra.service.SupplierService;
 import br.com.konisberg.product_api.infra.util.PathRest;
+import br.com.konisberg.product_api.infra.util.RouteTag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,14 +23,14 @@ import java.util.List;
 @RestController
 @RequestMapping(value = PathRest.API + PathRest.VERSION + PathRest.SUPPLIER)
 @RequiredArgsConstructor
-@Tag(name = "Fornecedor", description = "Operações do fornecedor")
+@Tag(name = RouteTag.SUPPLIER, description = "Operações do fornecedor")
 public class SupplierController {
 
     @Autowired
     private final SupplierService supplierService;
 
     @Transactional
-    @Operation(summary = "Cadastrar fornecedor", tags = {"Fornecedor"})
+    @Operation(summary = "Cadastrar fornecedor", tags = {RouteTag.SUPPLIER})
     @PostMapping
     public ResponseEntity<SupplierDTO> createSupplier(@Valid @RequestBody SupplierForm supplierForm) {
         SupplierUseCase supplierUseCase = new SupplierUseCase(supplierService);
@@ -43,7 +44,7 @@ public class SupplierController {
     }
 
     @Transactional
-    @Operation(summary = "Atualizar fornecedor", tags = {"Fornecedor"})
+    @Operation(summary = "Atualizar fornecedor", tags = {RouteTag.SUPPLIER})
     @PutMapping("/{id}")
     public ResponseEntity<SupplierDTO> updateSupplier(@PathVariable Integer id, @Valid @RequestBody SupplierForm supplierForm) {
         SupplierUseCase supplierUseCase = new SupplierUseCase(supplierService);
@@ -56,7 +57,7 @@ public class SupplierController {
         return ResponseEntity.created(uri).body(supplier);
     }
 
-    @Operation(summary = "Lista de fornecedores", tags = {"Fornecedor"})
+    @Operation(summary = "Lista de fornecedores", tags = {RouteTag.SUPPLIER})
     @GetMapping
     public ResponseEntity<List<SupplierDTO>> searchSupplierAll() {
         SupplierUseCase supplierUseCase = new SupplierUseCase(supplierService);
@@ -64,14 +65,14 @@ public class SupplierController {
         return ResponseEntity.ok().body(suppliers);
     }
 
-    @Operation(summary = "Consultar forncedor por id", tags = {"Fornecedor"})
+    @Operation(summary = "Consultar forncedor por id", tags = {RouteTag.SUPPLIER})
     @GetMapping("/{id}")
     public ResponseEntity<SupplierDTO> searchSupplierById(@PathVariable Integer id) {
         SupplierUseCase supplierUseCase = new SupplierUseCase(supplierService);
         return ResponseEntity.ok().body(supplierUseCase.searchById(id));
     }
 
-    @Operation(summary = "Excluir forncedor por id", tags = {"Fornecedor"})
+    @Operation(summary = "Excluir forncedor por id", tags = {RouteTag.SUPPLIER})
     @DeleteMapping("/{id}")
     public ResponseEntity<SupplierDTO> deleteSupplierById(@PathVariable Integer id) {
         SupplierUseCase supplierUseCase = new SupplierUseCase(supplierService);
