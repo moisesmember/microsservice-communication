@@ -8,6 +8,7 @@ import br.com.konisberg.product_api.infra.service.ProductService;
 import br.com.konisberg.product_api.infra.util.PathRest;
 import br.com.konisberg.product_api.infra.util.RouteTag;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+@SecurityRequirement(name = "Bearer Authentication")
 @CrossOrigin("*")
 @RestController
 @RequestMapping(value = PathRest.API + PathRest.VERSION + PathRest.PRODUCT)

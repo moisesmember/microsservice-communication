@@ -26,31 +26,4 @@ public class JwtResponse {
         }
     }
 
-//    public static JwtResponse getUser(Claims jwtClaims) {
-//        try {
-//            Object id = jwtClaims.get("id");
-//            Object name = jwtClaims.get("name");
-//            Object email = jwtClaims.get("email");
-//
-//            if (id instanceof Integer && name instanceof String && email instanceof String) {
-//                return JwtResponse.builder()
-//                        .id((Integer) id)
-//                        .name((String) name)
-//                        .email((String) email)
-//                        .build();
-//            } else {
-//                System.err.println("Type mismatch in JWT claims.");
-//                return null;
-//            }
-//        } catch (ClassCastException e) {
-//            System.err.println("ClassCastException occurred while parsing JWT claims: " + e.getMessage());
-//            e.printStackTrace();
-//            return null;
-//        } catch (Exception e) {
-//            System.err.println("An unexpected error occurred while parsing JWT claims: " + e.getMessage());
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
 }

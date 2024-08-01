@@ -2,6 +2,7 @@ package br.com.konisberg.product_api.infra.service;
 
 import br.com.konisberg.product_api.domain.entity.security.JwtResponse;
 import br.com.konisberg.product_api.infra.config.exception.AuthenticationException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,12 +24,12 @@ public class JwtService {
         var accessToken = extractToken(token);
         try {
             SecretKey secretKey = Keys.hmacShaKeyFor(apiSecret.getBytes());
-            var claims = Jwts
+            Claims claims = Jwts
                     .parser()
                     .verifyWith(secretKey)
                     .build()
-                    .parseEncryptedClaims(accessToken)
-                    .getPayload();
+                    .parseClaimsJws(accessToken)
+                    .getBody();
             var user = JwtResponse.getUser(claims);
             if (isEmpty(user) || isEmpty(user.getId())) {
                 throw new AuthenticationException("The user is not valid.");
