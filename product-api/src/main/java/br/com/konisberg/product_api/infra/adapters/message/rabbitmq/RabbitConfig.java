@@ -1,4 +1,4 @@
-package br.com.konisberg.product_api.infra.config.message;
+package br.com.konisberg.product_api.infra.adapters.message.rabbitmq;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

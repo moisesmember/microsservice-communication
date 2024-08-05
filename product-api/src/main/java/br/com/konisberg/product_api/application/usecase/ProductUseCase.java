@@ -2,9 +2,14 @@ package br.com.konisberg.product_api.application.usecase;
 
 import br.com.konisberg.product_api.application.dto.ProductDTO;
 import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
+import br.com.konisberg.product_api.application.form.ProductCheckStockForm;
 import br.com.konisberg.product_api.application.form.ProductForm;
+import br.com.konisberg.product_api.application.form.ProductQuantityForm;
+import br.com.konisberg.product_api.application.form.ProductStockForm;
 import br.com.konisberg.product_api.application.interator.ProductInterator;
+import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
+import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.util.ValidationUtils;
 import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
@@ -81,5 +86,30 @@ public class ProductUseCase implements ProductInterator {
     public List<ProductDTO> findBySupplierId(Integer supplierId) {
         ValidationUtils.validateNotEmpty(String.valueOf(supplierId), "supplier's id");
         return ProductDTO.fromList(productGateway.findBySupplierId(supplierId));
+    }
+
+    @Transactional
+    public void updateProductStock(ProductStockForm productStockForm) {
+        ValidationUtils.validateNotEmpty(productStockForm.salesId(), "sale's id");
+        productStockForm.products().forEach(
+                productQuantityForm -> {
+                    ValidationUtils.validateNotEmpty(String.valueOf(productQuantityForm.productId()), "product's id");
+                    ValidationUtils.validateNotEmpty(String.valueOf(productQuantityForm.quantity()), "quantity's product");
+                }
+        );
+        productGateway.updateProductStock(productStockForm);
+    }
+
+    public SuccessResponse checkProductsStock(ProductCheckStockForm request){
+        return null;
+    }
+
+    private void validateStock(ProductQuantityForm productQuantityForm) {
+        ValidationUtils.validateNotEmpty(String.valueOf(productQuantityForm.productId()), "product's id must be informed.");
+        ValidationUtils.validateNotEmpty(String.valueOf(productQuantityForm.quantity()), "product's quantity must be informed.");
+        Product product = productGateway.findById(productQuantityForm.productId());
+        ValidationUtils.validateNumberIsGreaterThan(
+                productQuantityForm.quantity(), product.getQuantityAvailable(),
+                String.format("The product %s is out of stock.", product.getId()));
     }
 }

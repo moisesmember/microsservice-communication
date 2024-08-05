@@ -1,7 +1,12 @@
 package br.com.konisberg.product_api.infra.service;
 
+import br.com.konisberg.product_api.application.dto.SalesProductDTO;
 import br.com.konisberg.product_api.application.form.ProductForm;
+import br.com.konisberg.product_api.application.form.ProductQuantityForm;
+import br.com.konisberg.product_api.application.form.ProductStockForm;
+import br.com.konisberg.product_api.application.form.SalesConfirmationForm;
 import br.com.konisberg.product_api.domain.entity.Product;
+import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
@@ -14,8 +19,11 @@ import br.com.konisberg.product_api.infra.repository.SupplierRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static br.com.konisberg.product_api.infra.config.RequestUtil.getCurrentRequest;
 
 @Service
 public class ProductService implements ProductGateway {
@@ -28,6 +36,11 @@ public class ProductService implements ProductGateway {
 
     @Autowired
     private SupplierRepository supplierRepository;
+
+    private static final Integer ZERO = 0;
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String TRANSACTION_ID = "transactionid";
+    private static final String SERVICE_ID = "serviceid";
 
     @Override
     public List<Product> findAll() {
@@ -110,5 +123,58 @@ public class ProductService implements ProductGateway {
     @Override
     public Boolean existsBySupplierId(Integer supplierId) {
         return productRepository.existsBySupplierId(supplierId);
+    }
+
+    @Override
+    public void updateProductStock(ProductStockForm productStockForm) {
+        updateStock(productStockForm);
+    }
+
+    private void updateStock(ProductStockForm productStockForm) {
+        List<ProductModel> productsForUpdate = new ArrayList<>();
+        productStockForm
+                .products()
+                .forEach(salesProduct -> {
+                    ProductModel existingProduct = productRepository.findById(salesProduct.productId())
+                            .orElseThrow(() -> new ValidationException("There's no Product for the given ID."));
+                    validateQuantityInStock(salesProduct, existingProduct);
+                    existingProduct.updateStock(salesProduct.quantity());
+                    existingProduct.setLastModifiedDate(new Date());
+                    productsForUpdate.add(existingProduct);
+                });
+        if (!productsForUpdate.isEmpty()) {
+            productRepository.saveAll(productsForUpdate);
+            var approvedMessage = new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.APPROVED, productStockForm.transactionid());
+            //salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
+        }
+    }
+
+    private SalesProductDTO getSalesByProductId(Integer productId) {
+        try {
+            var currentRequest = getCurrentRequest();
+            var token = currentRequest.getHeader(AUTHORIZATION);
+            var transactionid = currentRequest.getHeader(TRANSACTION_ID);
+            var serviceid = currentRequest.getAttribute(SERVICE_ID);
+//            log.info("Sending GET request to orders by productId with data {} | [transactionID: {} | serviceID: {}]",
+//                    productId, transactionid, serviceid);
+//            var response = salesClient
+//                    .findSalesByProductId(productId, token, transactionid)
+//                    .orElseThrow(() -> new ValidationException("The sales was not found by this product."));
+//            log.info("Recieving response from orders by productId with data {} | [transactionID: {} | serviceID: {}]",
+//                    objectMapper.writeValueAsString(response), transactionid, serviceid);
+//            return response;
+            return null;
+        } catch (Exception ex) {
+            //log.error("Error trying to call Sales-API: {}", ex.getMessage());
+            throw new ValidationException("The sales could not be found.");
+        }
+    }
+
+    private void validateQuantityInStock(ProductQuantityForm salesProductForm,
+                                         ProductModel existingProduct) {
+        if (salesProductForm.quantity() > existingProduct.getQuantityAvailable()) {
+            throw new ValidationException(
+                    String.format("The product %s is out of stock.", existingProduct.getId()));
+        }
     }
 }

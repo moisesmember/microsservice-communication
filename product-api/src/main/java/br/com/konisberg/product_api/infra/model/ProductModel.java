@@ -48,4 +48,8 @@ public class ProductModel extends Auditable{
                 .category(category)
                 .build();
     }
+
+    public void updateStock(Integer quantity) {
+        quantityAvailable = quantityAvailable - quantity;
+    }
 }

@@ -19,4 +19,16 @@ public class ValidationUtils {
             throw new ValidationException("The " + fieldName + " should not be less or equal to zero.");
         }
     }
+
+    public static void validateNumberIsGreaterThan(Number firstNumber, Number secondNumber, String fieldName) {
+        if (firstNumber == null) {
+            throw new ValidationException("The first number was not informed.");
+        }
+        if (secondNumber == null) {
+            throw new ValidationException("The second number was not informed.");
+        }
+        if (firstNumber.doubleValue() > secondNumber.doubleValue()) {
+            throw new ValidationException(fieldName);
+        }
+    }
 }
