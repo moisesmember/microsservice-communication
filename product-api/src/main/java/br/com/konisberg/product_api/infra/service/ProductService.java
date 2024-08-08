@@ -1,11 +1,11 @@
 package br.com.konisberg.product_api.infra.service;
 
-import br.com.konisberg.product_api.application.dto.SalesProductDTO;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.form.ProductQuantityForm;
 import br.com.konisberg.product_api.application.form.ProductStockForm;
 import br.com.konisberg.product_api.application.form.SalesConfirmationForm;
 import br.com.konisberg.product_api.domain.entity.Product;
+import br.com.konisberg.product_api.domain.entity.SalesProduct;
 import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
@@ -16,6 +16,9 @@ import br.com.konisberg.product_api.infra.model.SupplierModel;
 import br.com.konisberg.product_api.infra.repository.CategoryRepository;
 import br.com.konisberg.product_api.infra.repository.ProductRepository;
 import br.com.konisberg.product_api.infra.repository.SupplierRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,7 @@ import static br.com.konisberg.product_api.infra.config.RequestUtil.getCurrentRe
 @Service
 public class ProductService implements ProductGateway {
 
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
     @Autowired
     private ProductRepository productRepository;
 
@@ -36,6 +40,11 @@ public class ProductService implements ProductGateway {
 
     @Autowired
     private SupplierRepository supplierRepository;
+
+    //private final SalesClient salesClient;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private static final Integer ZERO = 0;
     private static final String AUTHORIZATION = "Authorization";
@@ -144,31 +153,30 @@ public class ProductService implements ProductGateway {
                 });
         if (!productsForUpdate.isEmpty()) {
             productRepository.saveAll(productsForUpdate);
-            var approvedMessage = new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.APPROVED, productStockForm.transactionid());
+            SalesConfirmationForm approvedMessage = new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.APPROVED, productStockForm.transactionid());
             //salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
         }
     }
 
-    private SalesProductDTO getSalesByProductId(Integer productId) {
-        try {
-            var currentRequest = getCurrentRequest();
-            var token = currentRequest.getHeader(AUTHORIZATION);
-            var transactionid = currentRequest.getHeader(TRANSACTION_ID);
-            var serviceid = currentRequest.getAttribute(SERVICE_ID);
+//    private SalesProduct getSalesByProductId(Integer productId) {
+//        try {
+//            var currentRequest = getCurrentRequest();
+//            var token = currentRequest.getHeader(AUTHORIZATION);
+//            var transactionId = currentRequest.getHeader(TRANSACTION_ID);
+//            var serviceId = currentRequest.getAttribute(SERVICE_ID);
 //            log.info("Sending GET request to orders by productId with data {} | [transactionID: {} | serviceID: {}]",
-//                    productId, transactionid, serviceid);
+//                    productId, transactionId, serviceId);
 //            var response = salesClient
-//                    .findSalesByProductId(productId, token, transactionid)
+//                    .findSalesByProductId(productId, token, transactionId)
 //                    .orElseThrow(() -> new ValidationException("The sales was not found by this product."));
 //            log.info("Recieving response from orders by productId with data {} | [transactionID: {} | serviceID: {}]",
-//                    objectMapper.writeValueAsString(response), transactionid, serviceid);
+//                    objectMapper.writeValueAsString(response), transactionId, serviceId);
 //            return response;
-            return null;
-        } catch (Exception ex) {
-            //log.error("Error trying to call Sales-API: {}", ex.getMessage());
-            throw new ValidationException("The sales could not be found.");
-        }
-    }
+//        } catch (Exception ex) {
+//            log.error("Error trying to call Sales-API: {}", ex.getMessage());
+//            throw new ValidationException("The sales could not be found.");
+//        }
+//    }
 
     private void validateQuantityInStock(ProductQuantityForm salesProductForm,
                                          ProductModel existingProduct) {
