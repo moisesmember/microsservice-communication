@@ -2,10 +2,8 @@ package br.com.konisberg.product_api.infra.service;
 
 import br.com.konisberg.product_api.application.form.*;
 import br.com.konisberg.product_api.domain.entity.Product;
-import br.com.konisberg.product_api.domain.entity.SalesProduct;
 import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
-import br.com.konisberg.product_api.infra.adapter.SalesClient;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.CategoryModel;

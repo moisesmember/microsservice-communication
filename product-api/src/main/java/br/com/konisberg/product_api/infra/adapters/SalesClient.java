@@ -1,4 +1,4 @@
-package br.com.konisberg.product_api.infra.adapter;
+package br.com.konisberg.product_api.infra.adapters;
 
 import br.com.konisberg.product_api.domain.entity.SalesProduct;
 import org.springframework.web.bind.annotation.PathVariable;
