@@ -10,17 +10,25 @@ import br.com.konisberg.product_api.application.interator.ProductInterator;
 import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
+import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.util.ValidationUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Named;
 import java.util.List;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 @Named
 public class ProductUseCase implements ProductInterator {
 
     private final ProductGateway productGateway;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public ProductUseCase(ProductGateway productGateway) {
         this.productGateway = productGateway;
@@ -101,7 +109,13 @@ public class ProductUseCase implements ProductInterator {
     }
 
     public SuccessResponse checkProductsStock(ProductCheckStockForm request){
-        return null;
+        if (isEmpty(request) || isEmpty(request.products())) {
+            throw new ValidationException("The request data and products must be informed.");
+        }
+        request
+                .products()
+                .forEach(this::validateStock);
+        return productGateway.checkProductsStock(request);
     }
 
     private void validateStock(ProductQuantityForm productQuantityForm) {

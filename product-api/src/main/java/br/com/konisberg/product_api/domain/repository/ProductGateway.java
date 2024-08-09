@@ -1,5 +1,6 @@
 package br.com.konisberg.product_api.domain.repository;
 
+import br.com.konisberg.product_api.application.form.ProductCheckStockForm;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.form.ProductStockForm;
 import br.com.konisberg.product_api.domain.entity.Product;
@@ -21,4 +22,5 @@ public interface ProductGateway extends GenericRepository<Product, ProductForm, 
 
     void updateProductStock(ProductStockForm productStockForm);
 
+    SuccessResponse checkProductsStock(ProductCheckStockForm request);
 }

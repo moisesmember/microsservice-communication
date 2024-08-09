@@ -1,13 +1,11 @@
 package br.com.konisberg.product_api.infra.service;
 
-import br.com.konisberg.product_api.application.form.ProductForm;
-import br.com.konisberg.product_api.application.form.ProductQuantityForm;
-import br.com.konisberg.product_api.application.form.ProductStockForm;
-import br.com.konisberg.product_api.application.form.SalesConfirmationForm;
+import br.com.konisberg.product_api.application.form.*;
 import br.com.konisberg.product_api.domain.entity.Product;
 import br.com.konisberg.product_api.domain.entity.SalesProduct;
 import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
+import br.com.konisberg.product_api.infra.adapter.SalesClient;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.model.CategoryModel;
@@ -17,6 +15,7 @@ import br.com.konisberg.product_api.infra.repository.CategoryRepository;
 import br.com.konisberg.product_api.infra.repository.ProductRepository;
 import br.com.konisberg.product_api.infra.repository.SupplierRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import java.util.List;
 import static br.com.konisberg.product_api.infra.config.RequestUtil.getCurrentRequest;
 
 @Service
+@AllArgsConstructor
 public class ProductService implements ProductGateway {
 
     private static final Logger log = LoggerFactory.getLogger(ProductService.class);
@@ -41,7 +41,7 @@ public class ProductService implements ProductGateway {
     @Autowired
     private SupplierRepository supplierRepository;
 
-    //private final SalesClient salesClient;
+//    private final SalesClient salesClient;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -177,6 +177,22 @@ public class ProductService implements ProductGateway {
 //            throw new ValidationException("The sales could not be found.");
 //        }
 //    }
+
+    public SuccessResponse checkProductsStock(ProductCheckStockForm request) {
+        try {
+            var currentRequest = getCurrentRequest();
+            var transactionId = currentRequest.getHeader(TRANSACTION_ID);
+            var serviceId = currentRequest.getAttribute(SERVICE_ID);
+            log.info("Request to POST product stock with data {} | [transactionID: {} | serviceID: {}]",
+                    objectMapper.writeValueAsString(request), transactionId, serviceId);
+            var response = SuccessResponse.create("The stock is ok!");
+            log.info("Response to POST product stock with data {} | [transactionID: {} | serviceID: {}]",
+                    objectMapper.writeValueAsString(response), transactionId, serviceId);
+            return response;
+        } catch (Exception ex) {
+            throw new ValidationException(ex.getMessage());
+        }
+    }
 
     private void validateQuantityInStock(ProductQuantityForm salesProductForm,
                                          ProductModel existingProduct) {
