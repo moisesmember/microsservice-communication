@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    @Value("${app-config.rabbit.exchange}")
+    @Value("${app-config.rabbit.exchange.product}")
     private String productTopicExchange;
 
     @Value("${app-config.rabbit.routingKey.product-stock}")

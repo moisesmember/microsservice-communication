@@ -6,6 +6,7 @@ import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
+import br.com.konisberg.product_api.infra.messaging.sender.SalesConfirmationSender;
 import br.com.konisberg.product_api.infra.model.CategoryModel;
 import br.com.konisberg.product_api.infra.model.ProductModel;
 import br.com.konisberg.product_api.infra.model.SupplierModel;
@@ -38,6 +39,9 @@ public class ProductService implements ProductGateway {
 
     @Autowired
     private SupplierRepository supplierRepository;
+
+    @Autowired
+    private SalesConfirmationSender salesConfirmationSender;
 
 //    private final SalesClient salesClient;
 
@@ -134,7 +138,13 @@ public class ProductService implements ProductGateway {
 
     @Override
     public void updateProductStock(ProductStockForm productStockForm) {
-        updateStock(productStockForm);
+        try {
+            updateStock(productStockForm);
+        } catch (Exception ex) {
+            log.error("Error while trying to update stock for message with error: {}", ex.getMessage(), ex);
+            var rejectedMessage =  new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.REJECTED, productStockForm.transactionId());
+            salesConfirmationSender.sendSalesConfirmationMessage(rejectedMessage);
+        }
     }
 
     private void updateStock(ProductStockForm productStockForm) {
@@ -151,8 +161,8 @@ public class ProductService implements ProductGateway {
                 });
         if (!productsForUpdate.isEmpty()) {
             productRepository.saveAll(productsForUpdate);
-            SalesConfirmationForm approvedMessage = new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.APPROVED, productStockForm.transactionid());
-            //salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
+            SalesConfirmationForm approvedMessage = new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.APPROVED, productStockForm.transactionId());
+            salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
         }
     }
 

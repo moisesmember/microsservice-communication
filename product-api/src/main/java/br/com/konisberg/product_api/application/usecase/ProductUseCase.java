@@ -99,6 +99,7 @@ public class ProductUseCase implements ProductInterator {
     @Transactional
     public void updateProductStock(ProductStockForm productStockForm) {
         ValidationUtils.validateNotEmpty(productStockForm.salesId(), "sale's id");
+//        ValidationUtils.validateNotEmpty(productStockForm.transactionId(), "transaction's id");
         productStockForm.products().forEach(
                 productQuantityForm -> {
                     ValidationUtils.validateNotEmpty(String.valueOf(productQuantityForm.productId()), "product's id");

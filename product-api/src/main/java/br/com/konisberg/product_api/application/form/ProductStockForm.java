@@ -5,6 +5,6 @@ import java.util.List;
 public record ProductStockForm(
         String salesId,
         List<ProductQuantityForm> products,
-        String transactionid
+        String transactionId
 ) {
 }
