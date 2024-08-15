@@ -2,8 +2,10 @@ package br.com.konisberg.product_api.infra.service;
 
 import br.com.konisberg.product_api.application.form.*;
 import br.com.konisberg.product_api.domain.entity.Product;
+import br.com.konisberg.product_api.domain.entity.SalesProduct;
 import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
+import br.com.konisberg.product_api.infra.adapters.SalesClient;
 import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.config.exception.ValidationException;
 import br.com.konisberg.product_api.infra.messaging.sender.SalesConfirmationSender;
@@ -43,7 +45,7 @@ public class ProductService implements ProductGateway {
     @Autowired
     private SalesConfirmationSender salesConfirmationSender;
 
-//    private final SalesClient salesClient;
+    private final SalesClient salesClient;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -166,25 +168,25 @@ public class ProductService implements ProductGateway {
         }
     }
 
-//    private SalesProduct getSalesByProductId(Integer productId) {
-//        try {
-//            var currentRequest = getCurrentRequest();
-//            var token = currentRequest.getHeader(AUTHORIZATION);
-//            var transactionId = currentRequest.getHeader(TRANSACTION_ID);
-//            var serviceId = currentRequest.getAttribute(SERVICE_ID);
-//            log.info("Sending GET request to orders by productId with data {} | [transactionID: {} | serviceID: {}]",
-//                    productId, transactionId, serviceId);
-//            var response = salesClient
-//                    .findSalesByProductId(productId, token, transactionId)
-//                    .orElseThrow(() -> new ValidationException("The sales was not found by this product."));
-//            log.info("Recieving response from orders by productId with data {} | [transactionID: {} | serviceID: {}]",
-//                    objectMapper.writeValueAsString(response), transactionId, serviceId);
-//            return response;
-//        } catch (Exception ex) {
-//            log.error("Error trying to call Sales-API: {}", ex.getMessage());
-//            throw new ValidationException("The sales could not be found.");
-//        }
-//    }
+    private SalesProduct getSalesByProductId(Integer productId) {
+        try {
+            var currentRequest = getCurrentRequest();
+            var token = currentRequest.getHeader(AUTHORIZATION);
+            var transactionId = currentRequest.getHeader(TRANSACTION_ID);
+            var serviceId = currentRequest.getAttribute(SERVICE_ID);
+            log.info("Sending GET request to orders by productId with data {} | [transactionID: {} | serviceID: {}]",
+                    productId, transactionId, serviceId);
+            var response = salesClient
+                    .findSalesByProductId(productId, token, transactionId)
+                    .orElseThrow(() -> new ValidationException("The sales was not found by this product."));
+            log.info("Recieving response from orders by productId with data {} | [transactionID: {} | serviceID: {}]",
+                    objectMapper.writeValueAsString(response), transactionId, serviceId);
+            return response;
+        } catch (Exception ex) {
+            log.error("Error trying to call Sales-API: {}", ex.getMessage());
+            throw new ValidationException("The sales could not be found.");
+        }
+    }
 
     public SuccessResponse checkProductsStock(ProductCheckStockForm request) {
         try {

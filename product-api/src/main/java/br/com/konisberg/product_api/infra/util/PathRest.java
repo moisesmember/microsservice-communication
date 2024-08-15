@@ -18,4 +18,6 @@ public class PathRest {
 
     public static final String SUPPLIER = "/supplier";
 
+    public static final String ORDER = "/orders";
+
 }
