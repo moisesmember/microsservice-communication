@@ -1,8 +1,11 @@
 package br.com.konisberg.product_api.application.dto;
 
 import br.com.konisberg.product_api.domain.entity.Product;
+import br.com.konisberg.product_api.infra.util.DateConversion;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,8 +14,11 @@ public record ProductDTO(
         String name,
         CategoryDTO category,
         SupplierDTO supplier,
+        @JsonProperty("quantity_available")
         Integer quantityAvailable,
-        Date creationDate
+        @JsonProperty("created_at")
+        @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+        LocalDateTime creationDate
 ) {
     public static ProductDTO from(Product product) {
         return new ProductDTO(
@@ -21,7 +27,7 @@ public record ProductDTO(
                 CategoryDTO.from(product.getCategory()),
                 SupplierDTO.from(product.getSupplier()),
                 product.getQuantityAvailable(),
-                product.getCreationDate()
+                DateConversion.convertDateToLocalDateTime(product.getCreationDate())
         );
     }
 

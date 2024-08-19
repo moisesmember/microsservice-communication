@@ -1,13 +1,10 @@
 package br.com.konisberg.product_api.infra.model;
 
-import br.com.konisberg.product_api.domain.entity.Category;
 import br.com.konisberg.product_api.domain.entity.Product;
-import br.com.konisberg.product_api.domain.entity.Supplier;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
