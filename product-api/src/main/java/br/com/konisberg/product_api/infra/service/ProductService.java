@@ -2,6 +2,7 @@ package br.com.konisberg.product_api.infra.service;
 
 import br.com.konisberg.product_api.application.form.*;
 import br.com.konisberg.product_api.domain.entity.Product;
+import br.com.konisberg.product_api.domain.entity.ProductSalesResponse;
 import br.com.konisberg.product_api.domain.entity.SalesProduct;
 import br.com.konisberg.product_api.domain.entity.enums.SalesStatus;
 import br.com.konisberg.product_api.domain.repository.ProductGateway;
@@ -166,6 +167,14 @@ public class ProductService implements ProductGateway {
             SalesConfirmationForm approvedMessage = new SalesConfirmationForm(productStockForm.salesId(), SalesStatus.APPROVED, productStockForm.transactionId());
             salesConfirmationSender.sendSalesConfirmationMessage(approvedMessage);
         }
+    }
+
+    @Override
+    public ProductSalesResponse findProductSales(Integer id) {
+        ProductModel productFound = productRepository.findById(id)
+                .orElseThrow(() -> new ValidationException("There's no Product for the given ID."));
+        SalesProduct sales =getSalesByProductId(productFound.getId());
+        return ProductSalesResponse.of(productFound, sales.getSalesIds());
     }
 
     private SalesProduct getSalesByProductId(Integer productId) {

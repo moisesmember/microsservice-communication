@@ -1,6 +1,7 @@
 package br.com.konisberg.product_api.application.usecase;
 
 import br.com.konisberg.product_api.application.dto.ProductDTO;
+import br.com.konisberg.product_api.application.dto.ProductSalesResponseDTO;
 import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.form.ProductCheckStockForm;
 import br.com.konisberg.product_api.application.form.ProductForm;
@@ -126,5 +127,10 @@ public class ProductUseCase implements ProductInterator {
         ValidationUtils.validateNumberIsGreaterThan(
                 productQuantityForm.quantity(), product.getQuantityAvailable(),
                 String.format("The product %s is out of stock.", product.getId()));
+    }
+
+    public ProductSalesResponseDTO findProductSales(Integer id) {
+        ValidationUtils.validateNotEmpty(String.valueOf(id), "product's id must be informed.");
+        return ProductSalesResponseDTO.from(productGateway.findProductSales(id));
     }
 }

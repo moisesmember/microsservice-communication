@@ -1,6 +1,6 @@
 package br.com.konisberg.product_api.application.dto;
 
-import br.com.konisberg.product_api.domain.entity.Product;
+import br.com.konisberg.product_api.domain.entity.ProductSalesResponse;
 import br.com.konisberg.product_api.infra.util.DateConversion;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,15 +18,15 @@ public record ProductSalesResponseDTO(
         CategoryDTO category,
         List<String> sales
 ) {
-    public static ProductSalesResponseDTO from(Product product, List<String> sales) {
+    public static ProductSalesResponseDTO from(ProductSalesResponse productSale) {
         return new ProductSalesResponseDTO(
-                product.getId(),
-                product.getName(),
-                product.getQuantityAvailable(),
-                DateConversion.convertDateToLocalDateTime(product.getCreationDate()),
-                SupplierDTO.from(product.getSupplier()),
-                CategoryDTO.from(product.getCategory()),
-                sales
+                productSale.getId(),
+                productSale.getName(),
+                productSale.getQuantityAvailable(),
+                DateConversion.convertDateToLocalDateTime(productSale.getCreationDate()),
+                SupplierDTO.from(productSale.getSupplier()),
+                CategoryDTO.from(productSale.getCategory()),
+                productSale.getSales()
         );
     }
 }

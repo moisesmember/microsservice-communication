@@ -1,6 +1,7 @@
 package br.com.konisberg.product_api.infra.controller;
 
 import br.com.konisberg.product_api.application.dto.ProductDTO;
+import br.com.konisberg.product_api.application.dto.ProductSalesResponseDTO;
 import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.usecase.ProductUseCase;
@@ -104,5 +105,12 @@ public class ProductController {
         ProductUseCase productUseCase = new ProductUseCase(productService);
         final List<ProductDTO> products = productUseCase.findBySupplierId(supplierId);
         return ResponseEntity.ok().body(products);
+    }
+
+    @Operation(summary = "Consultar vendas por produto por id", tags = {RouteTag.PRODUCT})
+    @GetMapping("{id}/sales")
+    public ResponseEntity<ProductSalesResponseDTO> searchProductSalesById(@PathVariable Integer id) {
+        ProductUseCase productUseCase = new ProductUseCase(productService);
+        return ResponseEntity.ok().body(productUseCase.findProductSales(id));
     }
 }
