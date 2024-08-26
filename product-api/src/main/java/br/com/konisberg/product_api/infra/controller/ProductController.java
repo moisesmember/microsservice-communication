@@ -3,8 +3,10 @@ package br.com.konisberg.product_api.infra.controller;
 import br.com.konisberg.product_api.application.dto.ProductDTO;
 import br.com.konisberg.product_api.application.dto.ProductSalesResponseDTO;
 import br.com.konisberg.product_api.application.dto.SuccessResponseDTO;
+import br.com.konisberg.product_api.application.form.ProductCheckStockForm;
 import br.com.konisberg.product_api.application.form.ProductForm;
 import br.com.konisberg.product_api.application.usecase.ProductUseCase;
+import br.com.konisberg.product_api.infra.config.exception.SuccessResponse;
 import br.com.konisberg.product_api.infra.service.ProductService;
 import br.com.konisberg.product_api.infra.util.PathRest;
 import br.com.konisberg.product_api.infra.util.RouteTag;
@@ -112,5 +114,12 @@ public class ProductController {
     public ResponseEntity<ProductSalesResponseDTO> searchProductSalesById(@PathVariable Integer id) {
         ProductUseCase productUseCase = new ProductUseCase(productService);
         return ResponseEntity.ok().body(productUseCase.findProductSales(id));
+    }
+
+    @Operation(summary = "Verificar se o produto possui estoque", tags = {RouteTag.PRODUCT})
+    @PostMapping("check-stock")
+    public SuccessResponse checkProductsStock(@RequestBody ProductCheckStockForm request) {
+        ProductUseCase productUseCase = new ProductUseCase(productService);
+        return productUseCase.checkProductsStock(request);
     }
 }
