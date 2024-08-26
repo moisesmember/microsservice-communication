@@ -112,7 +112,7 @@ Response to POST login with data {"status":200,"accessToken":"eyJhbGciOiJIUzI1Ni
 Product-API:
 
 Swagger:
-```http://localhost:8081/swagger-ui/```
+```http://localhost:8081/swagger-ui/index.html```
 
 ```
 Request to POST product stock with data {"products":[{"productId":1001,"quantity":1},{"productId":1002,"quantity":1},{"productId":1003,"quantity":1}]} | [transactionID: 8817508e-805c-48fb-9cb4-6a1e5a6e71e9 | serviceID: ea146e74-55cf-4a53-860e-9010d6e3f61b]
