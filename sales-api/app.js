@@ -1,10 +1,16 @@
 import express from "express"
 
+import { connect } from "./src/config/db/mongoDbConfig.js";
+import { createData } from "./src/config/db/seed.js";
+
 const app = express();
 const env = process.env;
 const PORT = env.PORT || 8083;
 
-app.get('/api/status', (req, res) => {
+connect();
+createData();
+
+app.get('/api/status', async (req, res) => {
     return res.status(200).json({
         service: "Sales-API",
         status: "up",

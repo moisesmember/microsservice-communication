@@ -40,7 +40,7 @@ services:
         max-size: "50m"
 
   sales-db:
-    image: tutum/mongodb
+    image: mongo:5.0
     container_name: sales-db
     restart: always
     environment:
