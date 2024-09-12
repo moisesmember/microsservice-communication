@@ -1,4 +1,4 @@
-import Order from "../modules/sales/model/Order.js";
+import Order from "../../modules/sales/model/Order.js";
 
 export async function createData() {
     await Order.collection.drop();
